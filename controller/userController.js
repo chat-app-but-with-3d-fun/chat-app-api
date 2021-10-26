@@ -68,3 +68,10 @@ export const addUser = async (req, res, next) => {
     export const verifyCookie = (req, res) => {
       res.send(req.user);
     };
+
+
+    //LOGOUT
+    export const logout = (req, res) => {
+      res.clearCookie("token")
+      res.json({ message: "Logged you out successfully" })
+    }
