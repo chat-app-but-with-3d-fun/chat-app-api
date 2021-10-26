@@ -12,6 +12,9 @@ const UserSchema = new Schema(
       email: { type: String, unique: true, required: true },
       password: { type: String, required: true },
       socketId: {type: String},
+      rooms: [{type: Schema.Types.ObjectId, ref: 'Room' }],
+      friends: [{type: Schema.Types.ObjectId, ref: 'User' }],
+      avatar: {type: String}
     },
     {
       versionKey: false,
