@@ -53,7 +53,7 @@ export const addUser = async (req, res, next) => {
     }; 
 
   //FIND User using an id inside req.body 
-    export const findUser = async(req, res, next) => {
+    export const findUserById = async(req, res, next) => {
       const id = req.body
       try{
        const user = await User.findOne(id).select('username email')
@@ -62,6 +62,38 @@ export const addUser = async (req, res, next) => {
         next(error)
       }
     }
+
+  //Find User using key=value
+    export const findUserKeyValue = async(req, res, next) => {
+      try{
+       const user = await User.findOne(req.search).select('username avatar socketId')
+       res.send(user)
+      } catch(error) {
+        next(error)
+      }
+    }
+
+
+    export const addFriend = async(req, res, next) => {
+      const {id: userId} = req.params
+      const {friendId} = req.body
+      try {
+        const updateEgo = await User.findById(userId)
+        if (updateEgo?.friends.includes(friendId)){
+          throw new createError(404, `Friend already exists`);
+        }
+        updateEgo.friends.push(friendId)
+        await updateEgo.save()
+
+        const updateOther = await User.findByIdAndUpdate(friendId, {$push: {friends: userId}}, { new: true });
+        res.send({updated: 'successfull',
+                  newFriendship: [updateEgo.friends, updateOther.friends]})
+      }
+      catch(error){
+        next(error)
+      }
+    }
+
 
 
     //VERIFYING Cookie, is it working??
