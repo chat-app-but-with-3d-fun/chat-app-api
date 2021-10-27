@@ -4,7 +4,10 @@ import {Server} from 'socket.io'
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import config from './config/config.js'
+
 import userRoute from './routes/userRoute.js'
+import msgRoute from './routes/messageRoute.js'
+import roomRoute from './routes/roomRoute.js'
 
 //mongoose Setup
 mongoose
@@ -33,7 +36,8 @@ app.get('/', (req, res) => {
     res.send('Main Page')
   })
 app.use('/user', userRoute)
-
+app.use('/room', roomRoute)
+app.use('/msg', msgRoute)
 
 //Start Server
 const http = app.listen(PORT, () => {console.log(`listening on Port${PORT}`)})

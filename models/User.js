@@ -44,6 +44,11 @@ UserSchema.methods.generateAuthToken = function () {
   
     return token;
   };
+
+  UserSchema.methods.checkMember = function (roomId) {
+    const user = this; 
+    return user.rooms?.includes(roomId)   
+  };
   
   UserSchema.statics.findByToken = function (token) {
     const User = this;
