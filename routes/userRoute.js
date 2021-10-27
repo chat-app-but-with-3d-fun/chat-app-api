@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import {addUser, findUserById, findUserKeyValue, loginUser, logout, verifyCookie, addFriend} from '../controller/userController.js'
-import { createRoom } from '../controller/roomController.js';
+import { createEmptyRoom, inviteFriend } from '../controller/roomController.js';
 
 import {userValidationRules, userValidationErrorHandling} from '../middleware/validation.js'
 import auth from '../middleware/authentication.js'
@@ -20,8 +20,15 @@ router.route('/:id/addfriend').post(addFriend)
 //Perform a search for a user with an open input field can be email or username
 router.route('/:id/findfriend').post(auth, isEmail(), prepareInput, findUserKeyValue)
 
-//create a room (done by a user)
-router.route('/:id/newroom').post(createRoom)
 
+//**** Room Controller ****
+//create a empty room (done by a user)
+router.route('/:id/newroom').post(createEmptyRoom)
+
+//invite other person to a room
+router.route('/:id/:roomId').post(inviteFriend)
+
+
+//***Message Controller */
 
 export default router
