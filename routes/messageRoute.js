@@ -8,8 +8,8 @@ import auth from '../middleware/authentication.js'
 const router = express.Router();
 
 router.route('/newmsg')
-  .post(createMessage)
-router.route('/getmsg')
-  .post(getMessages)
+  .post(auth, createMessage)
+router.route('/getmsg/:roomId')
+  .get(auth, getMessages)
 
 export default router

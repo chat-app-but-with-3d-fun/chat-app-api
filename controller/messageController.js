@@ -4,13 +4,10 @@ import Room from '../models/Room.js'
 import Message from '../models/Message.js'
 
 export const createMessage = async(req, res, next) => {
-    const {roomId, user, msg} = req.body 
-    // const user = req.user
+    const {roomId, msg} = req.body 
+    const user = req.user
     try {
-        //This only as long as authentication is not working after req.user should work
-        const findUser = await User.findById(user._id)
-        
-        const permission = await findUser.checkMember(roomId)
+        const permission = await user.checkMember(roomId)
         if (!permission){
             throw new createError(404, `You have no permission for this task, run!`);
         }
@@ -35,13 +32,13 @@ export const createMessage = async(req, res, next) => {
 }
 
 export const getMessages = async (req, res, next) => {
-    const {roomId, user} = req.body 
-    // const user = req.user
+    const {roomId} = req.params
+    const user = req.user
     try {
-        // const permission = await user.checkMember(roomId)
-        // if (!permission){
-        //     throw new createError(404, `You have no permission for this task, run!`);
-        // }
+        const permission = await user.checkMember(roomId)
+         if (!permission){
+             throw new createError(404, `You have no permission for this task, run!`);
+         }
         const room = await Room.findById(roomId).populate({
             path: 'messages',
             select: 'message sender type',
