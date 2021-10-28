@@ -1,8 +1,8 @@
-import { body, validationResult, oneOf} from 'express-validator';
+import {body, validationResult} from 'express-validator';
 
 //Check if input is an Email
 export const isEmail = () => {
-     return(
+    return(
         body('input')
             .trim()
             .isEmail()
@@ -14,10 +14,8 @@ export const prepareInput = (req, res, next) => {
     const {input} = req.body
     if (errors.errors.length > 0) {
         req.search = {username: input}
-        next()
-    }
-    else {
+    } else {
         req.search = {email: input}
-        next()
     }
+    next()
 }

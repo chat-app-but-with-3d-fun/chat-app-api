@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator';
+import {body, validationResult} from 'express-validator';
 import createError from 'http-errors';
 
 export const userValidationRules = () => {
