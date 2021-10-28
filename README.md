@@ -1,6 +1,6 @@
 # Content & Overview
 
-- [Overview](#overview)
+- [Content & Overview](#content--overview)
   - [User Schema](#user-schema)
     - [Values](#values)
     - [pre & methods & statics](#pre--methods--statics)
@@ -10,7 +10,7 @@
     - [Values](#values-2)
   - [Middleware](#middleware)
   - [User - Routes and methods](#user---routes-and-methods)
-    - [**/user/signin** // *addUser*](#usersignin--adduser)
+    - [**/user/signup** // *addUser*](#usersignup--adduser)
     - [**/user/login** // *loginUser*](#userlogin--loginuser)
     - [**/user/find** // *findUserById*](#userfind--finduserbyid)
     - [**/user/:id/findfriend** // *findUserKeyValue*](#useridfindfriend--finduserkeyvalue)
@@ -18,11 +18,11 @@
     - [**/user/auth** // *verifyCookie*](#userauth--verifycookie)
     - [**/user/logout** // *logout*](#userlogout--logout)
   - [Room - routes and controller](#room---routes-and-controller)
-    - [**/room/:id/newroom** // *createEmptsRoom](#roomidnewroom--createemptsroom)
-    - [**/room/:id/:roomId** // *inviteFriend*](#roomidroomid--invitefriend)
+    - [**/room/newroom** // *createEmptsRoom](#roomnewroom--createemptsroom)
+    - [**GET  /room/:roomId/adduser/:friendId** // *inviteFriend*](#get--roomroomidadduserfriendid--invitefriend)
   - [Message - routes and controller](#message---routes-and-controller)
     - [**/msg/newmsg** // *createMessage*](#msgnewmsg--createmessage)
-    - [**/msg/getmsg/** // *getMessage*](#msggetmsg--getmessage)
+    - [**GET  /msg/getmsg/:roomId** // *getMessage*](#get--msggetmsgroomid--getmessage)
 
 
 Our backend api - containing right now:
@@ -112,7 +112,7 @@ Our backend api - containing right now:
   
     > **req.user** --> user *from auth*
   
-    > <del>**req.body** --> friendId<del>
+   <del> > **req.body** --> friendId
 
     > **res.send** --> {success: 'just a string'}
 
@@ -125,7 +125,7 @@ Our backend api - containing right now:
     > **res.send** --> {success: ''}
 
 ### **GET  /msg/getmsg/:roomId** // *getMessage*
-    > <del>**req.body** --> roomId<del>
+   <del> > **req.body** --> roomId
 
     > **req.params** --> roomId
   
