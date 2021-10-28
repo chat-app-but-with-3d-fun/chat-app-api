@@ -9,6 +9,7 @@ export const addUser = async (req, res, next) => {
   try {
     const user = await User.create(info);
     user.password = undefined;
+    
     const token = user.generateAuthToken();
     
     res

@@ -35,14 +35,14 @@ router.route('/auth')
   .post(auth, verifyCookie)
 
 router.route('/find')
-  .post(findUserById)
+  .post(auth, findUserById)
 
 router.route('/logout')
   .get(logout)
 
 //Add friend to friends array, works in both directions
 router.route('/:id/addfriend')
-  .post(addFriend)
+  .post(auth, addFriend)
 
 //Perform a search for a user with an open input field can be email or username
 router.route('/:id/findfriend')
@@ -52,16 +52,5 @@ router.route('/:id/findfriend')
     prepareInput,
     findUserKeyValue
   )
-
-//**** Room Controller ****
-//create a empty room (done by a user)
-router.route('/:id/newroom')
-  .post(createEmptyRoom)
-
-//invite other person to a room
-router.route('/:id/:roomId')
-  .post(inviteFriend)
-
-//***Message Controller */
 
 export default router

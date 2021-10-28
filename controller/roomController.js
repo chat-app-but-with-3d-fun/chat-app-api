@@ -1,25 +1,25 @@
 import createError from 'http-errors';
 import User from '../models/User.js';
 import Room from '../models/Room.js';
-import bcryptjs from 'bcryptjs';
-import config from '../config/config.js';
 
-//First Draft stopped working here
+// Create an empty room
 export const createEmptyRoom = async (req, res, next) => {
-  const {id: userId}  = req.params
+  const user = req.user
   const {roomName='noName', users=[]} = req.body
-  users.push(userId)
+  users.push(user._id)
   try {
     const data = {roomName, users}
     const room = await Room.create(data);
-    const updateEgo = await User.findById(userId)
-    updateEgo.rooms.push(room._id)
-    await updateEgo.save()
+    const updateUser = await User.findByIdAndUpdate(
+      user._id,
+      {$push: {rooms: room._id}},
+      {new: true}
+    );
     res.send({
       newRoom: room,
       user: {
-        id: updateEgo.username,
-        rooms: updateEgo.rooms
+        id: user.username,
+        rooms: updateUser.rooms
       }
     })
   }
@@ -29,10 +29,9 @@ export const createEmptyRoom = async (req, res, next) => {
 }
 
 export const inviteFriend = async (req, res, next) => {
-  const {id: userId, roomId}  = req.params
-  const {friendId} = req.body
+  const {roomId, friendId}  = req.params
+  const user = req.user
   try {
-    const user = await User.findById(userId)
     const permission = await user.checkMember(roomId)
     if (!permission) {
       throw new createError(
@@ -40,12 +39,16 @@ export const inviteFriend = async (req, res, next) => {
         `You have no permission for this task, run!`
       );
     }
-    const updateFriend = await User.findById(friendId)
+    
+    const updateFriend = await User.findByIdAndUpdate(
+      friendId,
+      {$push: {rooms: roomId}},
+      {new: true} )
+
     const updateRoom = await Room.findById(roomId)
-    updateFriend.rooms.push(roomId)
     updateRoom.users.push(friendId)
-    await updateFriend.save()
     await updateRoom.save()
+
     res.send({
       success: `${updateFriend.username} joined ${updateRoom.roomName}`
     })

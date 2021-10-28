@@ -11,7 +11,9 @@ const auth = async(req, res, next) => {
             401,
             `Auth failed. Take your kinda cookie and run`
         ));
+        user.password = undefined
         req.user = user;
+        console.log('USER FOUND WITH OKEN', user)
         next();
     } catch (err) {
         next(err);
