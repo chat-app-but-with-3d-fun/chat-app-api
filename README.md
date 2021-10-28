@@ -67,7 +67,7 @@ Our backend api - containing right now:
 - validation 
 
 ## User - Routes and methods
-### **/user/signin** // *addUser*
+### **/user/signup** // *addUser*
     > **req.body** --> info (complete user info)
 
     > **return** --> cookie && user
@@ -101,16 +101,18 @@ Our backend api - containing right now:
 
 
 ## Room - routes and controller
-### **/room/:id/newroom** // *createEmptsRoom
-    > **req.params** --> id:userId
-
+### **/room/newroom** // *createEmptsRoom
+    > **req.user** --> user *from auth*
+  
     > **req.body** --> roomName='empty', users=[]
 
     > **res.send** --> {newRoom, user.rooms}
-### **/room/:id/:roomId** // *inviteFriend*
-    > **req.params** --> id:userId
-
-    > **req.body** --> friendId
+### **GET  /room/:roomId/adduser/:friendId** // *inviteFriend*
+    > **req.params** --> roomId, friendId
+  
+    > **req.user** --> user *from auth*
+  
+    > <del>**req.body** --> friendId<del>
 
     > **res.send** --> {success: 'just a string'}
 
@@ -122,9 +124,11 @@ Our backend api - containing right now:
 
     > **res.send** --> {success: ''}
 
-### **/msg/getmsg/** // *getMessage*
-    > **req.body** --> roomId
+### **GET  /msg/getmsg/:roomId** // *getMessage*
+    > <del>**req.body** --> roomId<del>
 
+    > **req.params** --> roomId
+  
     > **req.user** --> user *from auth* 
 
     > **res.send** --> room.messages
