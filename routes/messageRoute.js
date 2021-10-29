@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.route('/newmsg')
   .post(auth, createMessage)
-router.route('/getmsg/:roomId')
+router.route('/:roomId')
   .get(auth, getMessages)
 
 export default router

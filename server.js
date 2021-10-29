@@ -7,6 +7,8 @@ import config from './config/config.js'
 import userRoute from './routes/userRoute.js'
 import msgRoute from './routes/messageRoute.js'
 import roomRoute from './routes/roomRoute.js'
+import User from './models/User.js';
+import {registerUser, unRegisterUser, handshake} from './socketFunc/handleRegister.js'
 
 //mongoose Setup
 mongoose
@@ -55,23 +57,15 @@ app.use(function errorHandler(err, req, res, next) {
 });
 
 //Socket setup
-const newSocketConnection = (socket) => {
-  console.log('user connected', socket.id)  
-
-  //Callback Functions
-  const registerUser = async (data) => {
-    const allUser = await io.fetchSockets() 
-    const userArray = allUser.map(element => {
-      return element.id
-    })
-    io.emit('handshake', userArray)
-  } 
-
+const newSocketConnection = async(socket, io) => {
+  const userId = socket.handshake.query.userId
+  registerUser(userId, socket, io)
+  
+  
   //Event Llisteners
-  socket.on('register', registerUser)
+  socket.on('handshake', (friend) => handshake(socket, friend) )
   socket.on('disconnect', () => {
-    registerUser()
-    socket.removeAllListeners()
+    unRegisterUser(userId, socket)
   })
 } 
 
@@ -79,4 +73,4 @@ const newSocketConnection = (socket) => {
 const io = new Server(http, {cors: {origin: '*'}})
 
 //Socket Server listening for connection 
-io.on('connection', newSocketConnection)
+io.on('connection', (socket) => newSocketConnection(socket, io))

@@ -15,7 +15,8 @@ const UserSchema = new Schema(
     socketId: {type: String},
     rooms: [{type: Schema.Types.ObjectId, ref: 'Room' }],
     friends: [{type: Schema.Types.ObjectId, ref: 'User', unique: true }],
-    avatar: {type: String}
+    avatar: {type: String},
+    online: {type: Boolean, default: false}
   },
   {
     versionKey: false,
