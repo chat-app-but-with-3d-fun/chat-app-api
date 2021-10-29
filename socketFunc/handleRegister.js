@@ -45,7 +45,7 @@ export const unRegisterUser = async(userId, socket) => {
         {socketId: null,
         online: false},
         {new: true})
-    socket.to(`public-${user._id}`).emit('unRegister', user._id)
+    socket.to(`public-${userId}`).emit('unRegister', userId)
     socket.removeAllListeners()
     console.log('User logged out: ', user)
 }

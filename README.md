@@ -1,6 +1,9 @@
 # Content & Overview
 
 - [Content & Overview](#content--overview)
+  - [Socket Stuff](#socket-stuff)
+    - [Emitters](#emitters)
+    - [Listeners](#listeners)
   - [User Schema](#user-schema)
     - [Values](#values)
     - [pre & methods & statics](#pre--methods--statics)
@@ -22,10 +25,33 @@
     - [**GET  /room/:roomId/adduser/:friendId** // *inviteFriend*](#get--roomroomidadduserfriendid--invitefriend)
   - [Message - routes and controller](#message---routes-and-controller)
     - [**/msg/newmsg** // *createMessage*](#msgnewmsg--createmessage)
-    - [**GET  /msg/getmsg/:roomId** // *getMessage*](#get--msggetmsgroomid--getmessage)
+    - [**GET  /msg/:roomId** // *getMessage*](#get--msgroomid--getmessage)
 
 
 Our backend api - containing right now:
+
+## Socket Stuff
+### Emitters
+  - **register** to all friends {userId}
+  -  **welcome** to other user {string}
+  -  **unRegister** to all friends {userId}
+
+### Listeners
+> **"handshake"**
+  - *expects:* userId
+  
+  - *doing:* join public space of other user
+  
+  - *response:* **welcome** to other user {string}   
+
+> **"disconnect"**
+  - *expects*:
+  
+  - *doing*: update User (online false)
+  
+  - *response*: **unRegister** to all friends {userId}
+     
+
 
 ## User Schema 
 ### Values
@@ -124,7 +150,7 @@ Our backend api - containing right now:
 
     > **res.send** --> {success: ''}
 
-### **GET  /msg/getmsg/:roomId** // *getMessage*
+### **GET  /msg/:roomId** // *getMessage*
    <del> > **req.body** --> roomId
 
     > **req.params** --> roomId
