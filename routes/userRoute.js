@@ -6,7 +6,8 @@ import {
   loginUser,
   logout,
   verifyCookie,
-  addFriend
+  addFriend,
+  updateUser
 } from '../controller/userController.js'
 import {
   createEmptyRoom,
@@ -36,6 +37,9 @@ router.route('/auth')
 
 router.route('/find')
   .post(auth, findUserById)
+
+router.route('/update')
+  .post(auth, updateUser)
 
 router.route('/logout')
   .get(logout)

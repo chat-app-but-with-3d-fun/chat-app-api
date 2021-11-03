@@ -21,6 +21,12 @@ const RoomSchema = new Schema(
   }
 );
 
+RoomSchema.methods.userInside = function (userId) {
+  const user = this
+  return room.users?.includes(userId)
+}
+
+
 const Room = model('Room', RoomSchema); 
 
 export default Room;

@@ -25,6 +25,19 @@ export const addUser = async (req, res, next) => {
   }
 };
 
+export const updateUser = async (req, res, next) => {
+  const user = req.user
+  const update = req.body
+  try {
+    Object.assign(user, update);
+    const userUpdated = await req.user.save(); // => this will trigger the pre save hook
+    res.send(userUpdated)
+  }
+  catch(error) {
+    next(error)
+  }
+}
+
 //LOGIN
 export const loginUser = async (req, res, next) => {
   console.log('LOGIN REQUESTED: ', req.body)  
@@ -79,7 +92,8 @@ export const addFriend = async(req, res, next) => {
   const {friendId} = req.body
   try {
     const updateEgo = await User.findById(userId)
-    if (updateEgo?.friends.includes(friendId)) {
+    
+    if (updateEgo.checkFriend(friendId)) {
       throw new createError(404, `Friend already exists`);
     }
     updateEgo.friends.push(friendId)
