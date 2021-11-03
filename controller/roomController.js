@@ -32,22 +32,28 @@ export const inviteFriend = async (req, res, next) => {
   const {roomId, friendId}  = req.params
   const user = req.user
   try {
-    const permission = await user.checkMember(roomId)
-    if (!permission) {
+    
+    //Check permissions
+    const permissionRoom = await user.checkMember(roomId)
+    const permissionFriend = await user.checkFriend(friendId)
+    
+    if (!permissionRoom || !permissionFriend) {
       throw new createError(
         404,
         `You have no permission for this task, run!`
       );
     }
     
+
     const updateFriend = await User.findByIdAndUpdate(
       friendId,
-      {$push: {rooms: roomId}},
+      {$addToSet: {rooms: roomId}},
       {new: true} )
 
-    const updateRoom = await Room.findById(roomId)
-    updateRoom.users.push(friendId)
-    await updateRoom.save()
+    const updateRoom = await Room.findByIdAndUpdate(
+      roomId,
+      {$addToSet: {users: friendId}},
+      {new: true})
 
     res.send({
       success: `${updateFriend.username} joined ${updateRoom.roomName}`

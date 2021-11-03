@@ -10,9 +10,9 @@ import config from './config/config.js'
 import userRoute from './routes/userRoute.js'
 import msgRoute from './routes/messageRoute.js'
 import roomRoute from './routes/roomRoute.js'
-import User from './models/User.js';
 import {registerUser, unRegisterUser, handshake} from './socketFunc/handleRegister.js'
-
+import { updateRoomStatus } from './socketFunc/handleStatusChange.js';
+import {newMsg} from './socketFunc/handleMsg.js'
 
 //mongoose Setup
 mongoose
@@ -63,16 +63,19 @@ app.use(function errorHandler(err, req, res, next) {
 //Socket setup
 const newSocketConnection = async(socket, io) => {
   //For JWT Auth
-  // const userId = socket.decoded._id
+   const userId = socket.decoded._id
   
   //No JWT Auth
-  const userId = socket.handshake.query.userId
+  // const userId = socket.handshake.query.userId
   
   registerUser(userId, socket, io)
   
   
   //Event Llisteners
   socket.on('handshake', (friend) => handshake(socket, friend) )
+  socket.on('updateRoomStatus', (friend) => updateRoomStatus(socket, userId, friend))
+  socket.on('newMsg', (payload) => newMsg(socket, userId, payload))
+  socket.on('statusMsg', (payload) => statusMsg(socket, userId, payload))
   socket.on('disconnect', () => {
     unRegisterUser(userId, socket)
   })
@@ -81,27 +84,24 @@ const newSocketConnection = async(socket, io) => {
 //Starting Socket Server
 const io = new Server(http, {cors: {origin: '*'}})
 
-//Socket Server listening for connection 
-
-
 
 // Using no Authentication
-io.on('connection', (socket) => newSocketConnection(socket, io))
+// io.on('connection', (socket) => newSocketConnection(socket, io))
 
 //Using JWT Authentication
-// io.use( (socket, next) => {
-//   if (socket.handshake.query && socket.handshake.query.token){
-//     jwt.verify(socket.handshake.query.token, config.secretKey, function(err, decoded) {
-//       if (err) return next(new Error('Authentication error'));
-//       socket.decoded = decoded;
-//       console.log('WHAT HAPPENS HERE?: ',decoded)
-//       next();
-//     });
-//   }
-//   else {
-//     next(new Error('Authentication error'));
-//   }
-// })
-// .on('connection', (socket) => {
-//   newSocketConnection(socket, io)
-// });
+ io.use( (socket, next) => {
+   if (socket.handshake.query && socket.handshake.query.token){
+     jwt.verify(socket.handshake.query.token, config.secretKey, function(err, decoded) {
+       if (err) return next(new Error('Authentication error'));
+       socket.decoded = decoded;
+       console.log('WHAT HAPPENS HERE?: ',decoded)
+       next();
+     });
+   }
+   else {
+     next(new Error('Authentication error'));
+   }
+ })
+ .on('connection', (socket) => {
+   newSocketConnection(socket, io)
+ });

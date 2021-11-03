@@ -51,6 +51,13 @@ UserSchema.methods.checkMember = function (roomId) {
   return user.rooms?.includes(roomId)   
 };
 
+UserSchema.methods.checkFriend = function (friendId) {
+  const user = this
+  return user.friends?.includes(friendId)
+}
+
+
+
 UserSchema.statics.findByToken = function (token) {
   const User = this;
   try {

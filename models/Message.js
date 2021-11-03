@@ -10,7 +10,7 @@ const MessageSchema = new Schema(
     message: {type: String, required: true},
     sender: {type: Schema.Types.ObjectId, ref: 'User'},
     room: {type: Schema.Types.ObjectId, ref: 'Room'},
-    type: {type: String, required: true}
+    type: {type: String, default: 'chat', required: true}
   },
   {
     versionKey: false,
