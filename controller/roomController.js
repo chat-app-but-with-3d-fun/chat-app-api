@@ -12,7 +12,7 @@ export const createEmptyRoom = async (req, res, next) => {
     const room = await Room.create(data);
     const updateUser = await User.findByIdAndUpdate(
       user._id,
-      {$push: {rooms: room._id}},
+      {$push: {rooms: {room: room._id}}},
       {new: true}
     );
     res.send({
@@ -35,8 +35,9 @@ export const inviteFriend = async (req, res, next) => {
     
     //Check permissions
     const permissionRoom = await user.checkMember(roomId)
+    console.log(permissionRoom)
     const permissionFriend = await user.checkFriend(friendId)
-    
+
     if (!permissionRoom || !permissionFriend) {
       throw new createError(
         404,
@@ -47,7 +48,7 @@ export const inviteFriend = async (req, res, next) => {
 
     const updateFriend = await User.findByIdAndUpdate(
       friendId,
-      {$addToSet: {rooms: roomId}},
+      {$addToSet: {rooms: {room: roomId, unread: 0}}},
       {new: true} )
 
     const updateRoom = await Room.findByIdAndUpdate(

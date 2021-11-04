@@ -3,6 +3,7 @@ import User from "../models/User.js"
 
 //If room created or got added, change socket infos
 export const updateRoomStatus = async(socket, userId, friend) =>{
+    console.log('Room Status requested')
     const user = await User.findById(userId)
     //Check if rooms already exist if not join
     const roomSet = socket.rooms
@@ -13,6 +14,7 @@ export const updateRoomStatus = async(socket, userId, friend) =>{
         } 
     }
     if (friend) {
+        console.log('Friend attached: ', friend)
         socket.to(`private-${friend}`).emit('statusMsg', {type: 'room'}) 
     }
     

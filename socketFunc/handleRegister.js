@@ -29,7 +29,7 @@ export const registerUser = async(userId, socket, io) => {
     }   
     //Join your other Rooms for receiving news
     for (let i=0; i<user?.rooms.length; i++){
-        socket.join(`room-${user.rooms[i]}`)  
+        socket.join(`room-${user.rooms[i].room}`)  
     }
     console.log(user?.username, ' got now online with friends: ', friendsOnline,' and joined the following rooms: ', socket.rooms)
 }

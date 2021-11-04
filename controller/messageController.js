@@ -47,7 +47,24 @@ export const getMessages = async (req, res, next) => {
                 select: '_id username'
             }
         })
-        res.send(room.messages)
+
+        //Set unread messages back to 0 for User
+        const userUpdated = await User.findOneAndUpdate(
+                {user, "rooms.room" : roomId},
+                {$set: {"rooms.$.unread": 0} }
+            )
+        
+        const unreadMessages = userUpdated.rooms
+            .find( element => {
+                return `${element.room}` === roomId 
+            }) 
+
+        //return messages and number of unread messages in this chat
+        res.send({
+            unread: unreadMessages.unread,
+            messages: room.messages
+        })
+
     } catch(err) {
         next(err)
     }
