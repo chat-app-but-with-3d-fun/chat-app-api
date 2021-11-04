@@ -13,8 +13,8 @@ const UserSchema = new Schema(
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true },
     socketId: {type: String},
-    rooms: [{type: Schema.Types.ObjectId, ref: 'Room' }],
-    friends: [{type: Schema.Types.ObjectId, ref: 'User', unique: true }],
+    rooms: [{room: {type: Schema.Types.ObjectId, ref: 'Room'}, unread: {type: Number, required: true, default: 0 }}],
+    friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
     avatar: {type: String},
     online: {type: Boolean, default: false}
   },
@@ -48,8 +48,12 @@ UserSchema.methods.generateAuthToken = function () {
 
 UserSchema.methods.checkMember = function (roomId) {
   const user = this; 
-  return user.rooms?.includes(roomId)   
-};
+  const findRoom = user.rooms?.find( (element) => {
+    return element.room == roomId})   
+  if (findRoom) {
+    return true
+  }
+  };
 
 UserSchema.methods.checkFriend = function (friendId) {
   const user = this

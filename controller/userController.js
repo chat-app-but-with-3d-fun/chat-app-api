@@ -1,5 +1,6 @@
 import createError from 'http-errors';
 import User from '../models/User.js';
+import Room from '../models/Room.js';
 import bcryptjs from 'bcryptjs';
 import config from '../config/config.js'
 
@@ -96,20 +97,38 @@ export const addFriend = async(req, res, next) => {
     if (updateEgo.checkFriend(friendId)) {
       throw new createError(404, `Friend already exists`);
     }
+
+    //Create a shared room
+    const roomData = {
+      roomName: `privatChat-${userId}-${friendId}`,
+      users: [userId, friendId],
+      private: true
+    }
+    console.log('create a new room')
+    const newRoom = await Room.create(roomData)
+
+    //Share room infos with user and friend 
     updateEgo.friends.push(friendId)
+    updateEgo.rooms.push({room: newRoom._id, unread: 0})
     await updateEgo.save()
+    console.log(updateEgo, ' got updated')
+    console.log('updateOther: ',friendId, newRoom._id)
     
     const updateOther = await User.findByIdAndUpdate(
       friendId,
-      {$push: {friends: userId}},
+      {$push: {friends: userId, rooms: {room: newRoom._id, unread: 0}}},
       {new: true}
     );
+
+
     res.send({
       updated: 'successfull',
       newFriendship: [
         updateEgo.friends,
         updateOther.friends
-      ]
+      ],
+      newSharedRoom: newRoom._id,
+      roomRegistered: [updateEgo.rooms, updateOther.rooms]
     })
   } catch(error){
     next(error)

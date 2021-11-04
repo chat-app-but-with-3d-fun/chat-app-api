@@ -7,9 +7,11 @@ const KEY = config.secretKey
 
 const RoomSchema = new Schema(
   {
-    roomName: {type: String, required: true, unique: true},
+    roomName: {type: String, required: true},
     users: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    messages: [{type: Schema.Types.ObjectId, ref: 'Message'}]
+    messages: [{type: Schema.Types.ObjectId, ref: 'Message'}],
+    private: {type: Boolean, required: true, default: false}
+  
   },
   {
     versionKey: false,
