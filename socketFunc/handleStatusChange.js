@@ -8,8 +8,8 @@ export const updateRoomStatus = async(socket, userId, friend) =>{
     //Check if rooms already exist if not join
     const roomSet = socket.rooms
     for (let i=0; i<user?.rooms.length; i++){
-        if (!roomSet.has(`room-${user.rooms[i]}`)){
-            socket.join(`room-${user.rooms[i]}`)
+        if (!roomSet.has(`room-${user.rooms[i].room}`)){
+            socket.join(`room-${user.rooms[i].room}`)
             console.log('New room found and joined')
         } 
     }

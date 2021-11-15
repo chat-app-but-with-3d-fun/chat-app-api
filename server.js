@@ -63,11 +63,11 @@ app.use(function errorHandler(err, req, res, next) {
 //Socket setup
 const newSocketConnection = async(socket, io) => {
   //For JWT Auth
-   const userId = socket.decoded._id
+  //  const userId = socket.decoded._id
   
   //No JWT Auth
-  // const userId = socket.handshake.query.userId
-  
+  const userId = socket.handshake.query.userId
+  console.log(socket.handshake.query)
   registerUser(userId, socket, io)
   
   
@@ -86,22 +86,22 @@ const io = new Server(http, {cors: {origin: '*'}})
 
 
 // Using no Authentication
-// io.on('connection', (socket) => newSocketConnection(socket, io))
+io.on('connection', (socket) => newSocketConnection(socket, io))
 
 //Using JWT Authentication
- io.use( (socket, next) => {
-   if (socket.handshake.query && socket.handshake.query.token){
-     jwt.verify(socket.handshake.query.token, config.secretKey, function(err, decoded) {
-       if (err) return next(new Error('Authentication error'));
-       socket.decoded = decoded;
-       console.log('WHAT HAPPENS HERE?: ',decoded)
-       next();
-     });
-   }
-   else {
-     next(new Error('Authentication error'));
-   }
- })
- .on('connection', (socket) => {
-   newSocketConnection(socket, io)
- });
+//  io.use( (socket, next) => {
+//    if (socket.handshake.query && socket.handshake.query.token){
+//      jwt.verify(socket.handshake.query.token, config.secretKey, function(err, decoded) {
+//        if (err) return next(new Error('Authentication error'));
+//        socket.decoded = decoded;
+//        console.log('WHAT HAPPENS HERE?: ',decoded)
+//        next();
+//      });
+//    }
+//    else {
+//      next(new Error('Authentication error'));
+//    }
+//  })
+//  .on('connection', (socket) => {
+//    newSocketConnection(socket, io)
+//  });
