@@ -12,4 +12,4 @@ router.route('/newmsg')
 router.route('/:roomId')
   .get(auth, getMessages)
 
-export default router
+export default router 
