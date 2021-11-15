@@ -44,6 +44,11 @@ router.route('/update')
 router.route('/logout')
   .get(logout)
 
+router.route('/test')
+    .get((req, res, next) => {
+      res.send({data: ['work?']})
+    })
+
 //Add friend to friends array, works in both directions
 router.route('/:id/addfriend')
   .post(auth, addFriend)
