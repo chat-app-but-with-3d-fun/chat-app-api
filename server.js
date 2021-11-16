@@ -27,7 +27,7 @@ mongoose
 
 //Express Setup
 const app = express()
-const PORT = config.port
+const PORT = config.port || 5000
 
 //Middleware
 app.use(express.json())
