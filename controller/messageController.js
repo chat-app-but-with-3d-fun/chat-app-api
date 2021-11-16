@@ -4,7 +4,7 @@ import Room from '../models/Room.js'
 import Message from '../models/Message.js'
 
 export const createMessage = async(req, res, next) => {
-    const {roomId, msg} = req.body 
+    const {roomId, type, message} = req.body
     const user = req.user
     try {
         const permission = await user.checkMember(roomId)
@@ -12,9 +12,9 @@ export const createMessage = async(req, res, next) => {
             throw new createError(404, `You have no permission for this task, run!`);
         }
         const data = {
-            message: msg.message,
+            message: message,
             sender: user._id,
-            type: msg.type,
+            type: type,
             room: roomId
         }
         const newMsg = await Message.create(data)
