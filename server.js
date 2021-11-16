@@ -33,7 +33,8 @@ const PORT = config.port || 5000
 app.use(express.json())
 app.use(cors({
   origin: config.frontendOrigin,
-  credentials: true
+  credentials: true,
+  sameSite: config.ckSameSite
 }));
 app.use(cookieParser());
 
