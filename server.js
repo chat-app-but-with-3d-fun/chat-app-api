@@ -64,7 +64,7 @@ app.use(function errorHandler(err, req, res, next) {
 //Socket setup
 const newSocketConnection = async(socket, io) => {
   //For JWT Auth
-  //  const userId = socket.decoded._id
+  // const userId = socket.decoded._id
   
   //No JWT Auth
   const userId = socket.handshake.query.userId

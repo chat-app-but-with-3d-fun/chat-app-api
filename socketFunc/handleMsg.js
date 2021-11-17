@@ -16,13 +16,14 @@ export const newMsg = async(socket, userId, payload) => {
             if (!permission){
              throw new createError(404, `You have no permission for this task, run!`);
             }
-            
+            console.log('Permission: ', permission)
             //compose message and distribute
             const data = {
                 type, message, room,
                 sender: userId
             }
             const newMsg = await Message.create(data)
+            console.log('NEW MSG CREATED: ', newMsg)
             const roomUpdated = await Room
             .findByIdAndUpdate(
                 room,
