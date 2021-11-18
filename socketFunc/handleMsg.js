@@ -6,7 +6,7 @@ import Room from '../models/Room.js'
 import Message from '../models/Message.js'
 
 //Msg goes to the room
-export const newMsg = async(socket, userId, payload) => {
+export const newMsg = async(io, socket, userId, payload) => {
     const {room, type, message} = payload
     try {
         const user = await User.findById(userId)
@@ -35,7 +35,7 @@ export const newMsg = async(socket, userId, payload) => {
                 select: 'online'})
 
             console.log('new message to ', `room-${room}` )
-            socket.to(`room-${room}`).emit('newMsg', newMsg)
+            io.in(`room-${room}`).emit('newMsg', newMsg)
             
 
             //inform offline users
