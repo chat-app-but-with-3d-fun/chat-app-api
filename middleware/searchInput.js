@@ -10,6 +10,7 @@ export const isEmail = () => {
 
 //Construct search term depending if input is email or username    
 export const prepareInput = (req, res, next) => {
+    console.log('BODY: ',req.body)
     const errors = validationResult(req)
     const {input} = req.body
     if (errors.errors.length > 0) {
