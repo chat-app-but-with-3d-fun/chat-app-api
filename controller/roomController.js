@@ -35,7 +35,7 @@ export const inviteFriend = async (req, res, next) => {
     
     //Check permissions
     const permissionRoom = await user.checkMember(roomId)
-    console.log(permissionRoom)
+    console.log('Permission ', permissionRoom)
     const permissionFriend = await user.checkFriend(friendId)
 
     if (!permissionRoom || !permissionFriend) {
