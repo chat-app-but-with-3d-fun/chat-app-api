@@ -34,16 +34,16 @@ export const inviteFriend = async (req, res, next) => {
   try {
     
     //Check permissions
-    const permissionRoom = await user.checkMember(roomId)
-    console.log('Permission ', permissionRoom)
-    const permissionFriend = await user.checkFriend(friendId)
+    // const permissionRoom = await user.checkMember(roomId)
+    // console.log('Permission ', permissionRoom)
+    // const permissionFriend = await user.checkFriend(friendId)
 
-    if (!permissionRoom || !permissionFriend) {
-      throw new createError(
-        404,
-        `You have no permission for this task, run!`
-      );
-    }
+    // if (!permissionRoom || !permissionFriend) {
+    //   throw new createError(
+    //     404,
+    //     `You have no permission for this task, run!`
+    //   );
+    // }
     
 
     const updateFriend = await User.findByIdAndUpdate(
