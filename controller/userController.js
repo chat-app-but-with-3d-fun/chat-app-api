@@ -105,10 +105,9 @@ export const findUserKeyValue = async(req, res, next) => {
 export const addFriend = async(req, res, next) => {
   const {id: userId} = req.params
   const {friendId} = req.body
-  console.log('FRIENDID: ', id)
+  console.log('FRIENDID: ', userId)
   try {
     const updateEgo = await User.findById(userId)
-    
     if (updateEgo.checkFriend(friendId)) {
       throw new createError(404, `Friend already exists`);
     }
@@ -137,7 +136,7 @@ export const addFriend = async(req, res, next) => {
   
     res.send({
      friend: updateOther,
-     room:  newRoom })
+     room:  {room: newRoom, unread: 0}})
   } catch(error){
     next(error)
   }
