@@ -105,6 +105,7 @@ export const findUserKeyValue = async(req, res, next) => {
 export const addFriend = async(req, res, next) => {
   const {id: userId} = req.params
   const {friendId} = req.body
+  console.log('FRIENDID: ', id)
   try {
     const updateEgo = await User.findById(userId)
     

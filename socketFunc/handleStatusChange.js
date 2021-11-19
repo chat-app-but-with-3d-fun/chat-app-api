@@ -15,7 +15,7 @@ export const updateRoomStatus = async(socket, userId, payload) =>{
         } 
     }
     if (friend) {
-        console.log('Friend attached: ', friend)
+        console.log('Friend attached: ', friend, {type})
         socket.to(`private-${friend}`).emit('statusMsg', {type}) 
     }
     
