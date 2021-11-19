@@ -94,6 +94,7 @@ export const findUserById = async(req, res, next) => {
 //Find User using key=value
 export const findUserKeyValue = async(req, res, next) => {
   try{
+    console.log('WHAT ARRIVES: ', req.search)
     const user = await User.find(req.search).select('username avatar online')
     res.send(user)
   } catch(error) {
