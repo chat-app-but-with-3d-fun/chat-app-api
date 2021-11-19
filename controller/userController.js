@@ -44,15 +44,20 @@ export const loginUser = async (req, res, next) => {
   console.log('LOGIN REQUESTED: ', req.body)  
   try {
     const {username, password} = req.body;
-    const user = await User.findOne({username}).populate({
-      path: 'rooms.room',
-    roomName: {type: String, required: true},
-      select: 'roomName users private',
-      populate: {
-          path: 'users',
-          select: 'username online'
-      }
-  })
+    const user = await User.findOne({username})
+      .populate({
+        path: 'friends',
+        select: 'username online'
+      })
+      .populate({
+        path: 'rooms.room',
+        roomName: {type: String, required: true},
+        select: 'roomName users private',
+          populate: {
+            path: 'users',
+            select: 'username online'
+        }
+      })
     if (!user) throw new createError(404, `Username not valid`);
     
     const passwordIsValid = bcryptjs.compareSync(password, user.password);

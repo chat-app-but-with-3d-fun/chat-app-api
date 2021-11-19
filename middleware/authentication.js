@@ -5,7 +5,12 @@ const auth = async(req, res, next) => {
     try{
         const token = req.cookies.token;
         console.log('COOKIE ARRIVED: ', token)
-        const user = await User.findByToken(token).populate({
+        const user = await User.findByToken(token)
+        .populate({
+            path: 'friends',
+            select: 'username online'
+          })
+        .populate({
             path: 'rooms.room',
             roomName: {type: String, required: true},
             select: 'roomName users private',
