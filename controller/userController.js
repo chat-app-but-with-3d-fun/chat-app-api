@@ -94,7 +94,7 @@ export const findUserById = async(req, res, next) => {
 //Find User using key=value
 export const findUserKeyValue = async(req, res, next) => {
   try{
-    const user = await User.findOne(req.search).select('username avatar socketId')
+    const user = await User.find(req.search).select('username avatar online')
     res.send(user)
   } catch(error) {
     next(error)
@@ -131,18 +131,11 @@ export const addFriend = async(req, res, next) => {
       friendId,
       {$push: {friends: userId, rooms: {room: newRoom._id, unread: 0}}},
       {new: true}
-    );
-
-
+    )
+  
     res.send({
-      updated: 'successfull',
-      newFriendship: [
-        updateEgo.friends,
-        updateOther.friends
-      ],
-      newSharedRoom: newRoom._id,
-      roomRegistered: [updateEgo.rooms, updateOther.rooms]
-    })
+     friend: updateOther,
+     room:  newRoom })
   } catch(error){
     next(error)
   }

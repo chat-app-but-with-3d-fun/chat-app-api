@@ -74,7 +74,7 @@ const newSocketConnection = async(socket, io) => {
   
   //Event Llisteners
   socket.on('handshake', (friend) => handshake(socket, friend) )
-  socket.on('updateRoomStatus', (friend) => updateRoomStatus(socket, userId, friend))
+  socket.on('changeStatus', (payload) => updateRoomStatus(socket, userId, payload))
   socket.on('newMsg', (payload) => newMsg(io, socket, userId, payload))
   socket.on('statusMsg', (payload) => statusMsg(socket, userId, payload))
   socket.on('disconnect', () => {
