@@ -4,7 +4,7 @@ import User from "../models/User.js"
 //If room created or got added, change socket infos
 export const updateRoomStatus = async(socket, userId, payload) =>{
     
-    const {type, friend} = payload
+    const {type = null, friend = null} = payload
     console.log('Room Status requested')
     const user = await User.findById(userId)
     //Check if rooms already exist if not join
