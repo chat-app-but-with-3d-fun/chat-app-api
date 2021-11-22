@@ -15,13 +15,7 @@ export const createEmptyRoom = async (req, res, next) => {
       {$push: {rooms: {room: room._id}}},
       {new: true}
     );
-    res.send({
-      newRoom: room,
-      user: {
-        id: user.username,
-        rooms: updateUser.rooms
-      }
-    })
+    res.send({room})
   }
   catch(err){
     next(err)
