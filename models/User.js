@@ -13,7 +13,10 @@ const UserSchema = new Schema(
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true },
     socketId: {type: String},
-    rooms: [{room: {type: Schema.Types.ObjectId, ref: 'Room'}, unread: {type: Number, required: true, default: 0 }}],
+    rooms: [{
+      _id: false,
+      room: {type: Schema.Types.ObjectId, ref: 'Room'}, unread: {type: Number, required: true, default: 0 }
+    }],
     friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
     avatar: {type: String},
     online: {type: Boolean, default: false}
