@@ -15,7 +15,14 @@ export const createEmptyRoom = async (req, res, next) => {
       {$push: {rooms: {room: room._id}}},
       {new: true}
     );
-    res.send({room})
+    const tmpObj = {
+      room: {
+        roomName: room.roomName,
+        _id: room._id,
+        private: room.private,
+        users: room.users},
+      unread: 0}
+    res.send(tmpObj)
   }
   catch(err){
     next(err)
