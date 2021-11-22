@@ -35,11 +35,11 @@ export const getMessages = async (req, res, next) => {
     const {roomId} = req.params
     const user = req.user
     try {
-        const permission = await user.checkMember(roomId)
-        console.log('permission: ', permission) 
-        if (!permission){
-             throw new createError(404, `You have no permission for this task, run!`);
-         }
+        // const permission = await user.checkMember(roomId)
+        // console.log('permission: ', permission) 
+        // if (!permission){
+        //      throw new createError(404, `You have no permission for this task, run!`);
+        //  }
         const room = await Room.findById(roomId).populate({
             path: 'messages',
             select: 'message sender type',
