@@ -76,6 +76,7 @@ const newSocketConnection = async(socket, io) => {
   socket.on('handshake', (friend) => handshake(socket, friend) )
   socket.on('changeStatus', (payload) => updateRoomStatus(socket, userId, payload))
   socket.on('newMsg', (payload) => newMsg(io, socket, userId, payload))
+  socket.on('noteChange', (payload) => console.log('THE NOTE IS TRIGGERED: ', payload))
   socket.on('statusMsg', (payload) => statusMsg(socket, userId, payload))
   socket.on('disconnect', () => {
     unRegisterUser(userId, socket)
