@@ -42,7 +42,7 @@ export const newMsg = async(io, socket, userId, payload) => {
                 select: 'online'})
 
             console.log('new message to ', `room-${room}` )
-            io.in(`room-${room}`).emit('newMsg', newMsg)
+            io.in(`room-${room}`).emit('newMsg', popMsg)
             
 
             //inform offline users
