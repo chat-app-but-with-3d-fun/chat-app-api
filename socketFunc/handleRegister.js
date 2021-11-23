@@ -32,7 +32,7 @@ export const registerUser = async(userId, socket, io) => {
         socket.join(`room-${user.rooms[i].room}`)  
     }
     console.log(user?.username, ' got now online with friends: ', friendsOnline,' and joined the following rooms: ', socket.rooms)
-    io.emit('welcome', {"message": 'you are now online and somebody else maybe'});
+    // io.emit('welcome', {"message": 'you are now online and somebody else maybe'});
 }
 
 
