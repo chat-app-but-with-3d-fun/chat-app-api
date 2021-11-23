@@ -24,12 +24,11 @@ export const newMsg = async(io, socket, userId, payload) => {
             }
             const newMsg = await Message.create(data)
             newMsg = await newMsg
-                .populate('company').execPopulate()
                 .populate({
                     path: 'sender',
                     select: '_id username'
                 }).execPopulate()
-                
+
             console.log('NEW MSG CREATED: ', newMsg)
             const roomUpdated = await Room
             .findByIdAndUpdate(
