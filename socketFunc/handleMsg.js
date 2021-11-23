@@ -12,24 +12,25 @@ export const newMsg = async(io, socket, userId, payload) => {
         const user = await User.findById(userId)
         if (type==='chat'){
             //check authentication for writing in group 
-            const permission = await user.checkMember(room)
-            if (!permission){
-             throw new createError(404, `You have no permission for this task, run!`);
-            }
-            console.log('Permission: ', permission)
+            // const permission = await user.checkMember(room)
+            // if (!permission){
+            //  throw new createError(404, `You have no permission for this task, run!`);
+            // }
+            // console.log('Permission: ', permission)
             //compose message and distribute
             const data = {
                 type, message, room,
                 sender: userId
             }
-            let newMsg = await Message.create(data)
-            // newMsg = await newMsg
-            //     .populate({
-            //         path: 'sender',
-            //         select: '_id username'
-            //     })
+            const newMsg = await Message.create(data)
+            const popMsg = await Message.findById(newMsg._id)
+                .populate({
+                    path: 'sender',
+                    select: '_id username'
+                })
 
             console.log('NEW MSG CREATED: ', newMsg)
+            console.log('MSG sent back: ', popMsg)
             const roomUpdated = await Room
             .findByIdAndUpdate(
                 room,
