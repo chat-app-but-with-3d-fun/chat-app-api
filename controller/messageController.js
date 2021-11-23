@@ -42,7 +42,7 @@ export const getMessages = async (req, res, next) => {
         //  }
         const room = await Room.findById(roomId).populate({
             path: 'messages',
-            select: 'message sender type',
+            select: 'message sender type createdAt',
             populate: {
                 path: 'sender',
                 select: '_id username'
