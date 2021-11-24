@@ -12,7 +12,7 @@ import msgRoute from './routes/messageRoute.js'
 import roomRoute from './routes/roomRoute.js'
 import {registerUser, unRegisterUser, handshake} from './socketFunc/handleRegister.js'
 import { updateRoomStatus } from './socketFunc/handleStatusChange.js';
-import {newMsg} from './socketFunc/handleMsg.js'
+import {newMsg, newNote} from './socketFunc/handleMsg.js'
 
 //mongoose Setup
 mongoose
@@ -76,11 +76,12 @@ const newSocketConnection = async(socket, io) => {
   socket.on('handshake', (friend) => handshake(socket, friend) )
   socket.on('changeStatus', (payload) => updateRoomStatus(socket, userId, payload))
   socket.on('newMsg', (payload) => newMsg(io, socket, userId, payload))
-  socket.on('noteChange', (payload) => {
-    console.log('THE NOTE IS TRIGGERED: ', payload)
-    const {room, note} = payload
-    io.in(`room-${room}`).emit('noteChange', note)
-  })
+  // socket.on('noteChange', (payload) => {
+  //   console.log('THE NOTE IS TRIGGERED: ', payload)
+  //   const {room, note} = payload
+  //   io.in(`room-${room}`).emit('noteChange', note)
+  // })
+  socket.on('newNote', (payload) => newNote(io,socket,userid, payload))
   socket.on('statusMsg', (payload) => statusMsg(socket, userId, payload))
   socket.on('disconnect', () => {
     unRegisterUser(userId, socket)
