@@ -49,6 +49,10 @@ export const getMessages = async (req, res, next) => {
             }
         })
 
+        const chatOnly = room.messages.filter( element => {
+            return element.type === 'chat'
+        })
+
         //Set unread messages back to 0 for User
         const userUpdated = await User.findOneAndUpdate(
                 {user, "rooms.room" : roomId},
@@ -63,7 +67,7 @@ export const getMessages = async (req, res, next) => {
         //return messages and number of unread messages in this chat
         res.send({
             unread: unreadMessages.unread,
-            messages: room.messages
+            messages: chatOnly
         })
 
     } catch(err) {
