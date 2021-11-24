@@ -71,34 +71,34 @@ export const newMsg = async(io, socket, userId, payload) => {
 
 export const newNote = async(io, socket, userId, payload) => {
     const {room, type, message} = payload
+    console.log('new NOTE ARRIVED: ', payload)
+    console.log('DESTRUCTURING WORKS: ', room, type, message)
     try {
-        if (type==='note'){
+        if (type ==='note'){
+            console.log('IF WORKS!')
             const data = {
                 type, message, room,
                 sender: userId
             }
-        const newMsg = await Message.create(data)
-        // const popMsg = await Message.findById(newMsg._id)
-        //     .populate({
-        //         path: 'sender',
-        //         select: '_id username'
-        //     })
+            const newMsg = await Message.create(data)
+            // const popMsg = await Message.findById(newMsg._id)
+            //     .populate({
+            //         path: 'sender',
+            //         select: '_id username'
+            //     })
 
-        console.log('NEW NOTE CREATED: ', newMsg)
-        // console.log('MSG sent back: ', popMsg)
-        const roomUpdated = await Room
-        .findByIdAndUpdate(
-            room,
-            {$push: {messages: newMsg._id}},
-            {new: true}
-        )
-        .populate({
-            path: 'users',
-            select: 'online'})
+            console.log('NEW NOTE CREATED: ', newMsg)
+            // console.log('MSG sent back: ', popMsg)
+            const roomUpdated = await Room
+                .findByIdAndUpdate(
+                    room,
+                    {$push: {messages: newMsg._id}},
+                    {new: true}
+                )
 
-        console.log('new NOTE to ', `room-${room}` )
-        io.in(`room-${room}`).emit('noteChange', newMsg)
-    }   
+            console.log('new NOTE to ', `room-${room}` )
+            io.in(`room-${room}`).emit('noteChange', newMsg)
+        }   
     }
     catch(error){
         console.log('ERROR: ',error)
