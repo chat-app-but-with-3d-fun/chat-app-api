@@ -11,7 +11,7 @@ import userRoute from './routes/userRoute.js'
 import msgRoute from './routes/messageRoute.js'
 import roomRoute from './routes/roomRoute.js'
 import {registerUser, unRegisterUser, handshake} from './socketFunc/handleRegister.js'
-import { updateRoomStatus } from './socketFunc/handleStatusChange.js';
+import { updateActiveRoom, updateRoomStatus } from './socketFunc/handleStatusChange.js';
 import {newMsg, newNote, getNotes} from './socketFunc/handleMsg.js'
 
 //mongoose Setup
@@ -75,7 +75,7 @@ const newSocketConnection = async(socket, io) => {
   //Event Llisteners
   socket.on('handshake', (friend) => handshake(socket, friend) )
   socket.on('changeStatus', (payload) => updateRoomStatus(socket, userId, payload))
-  socket.on('setRoom', (payload) => console.log('ROOM STATUS CHANGED: ', payload))
+  socket.on('setRoom', (payload) => updateActiveRoom(socket, userId, payload))
   socket.on('newMsg', (payload) => newMsg(io, socket, userId, payload))
   // socket.on('noteChange', (payload) => {
   //   console.log('THE NOTE IS TRIGGERED: ', payload)
