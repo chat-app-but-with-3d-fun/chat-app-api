@@ -75,6 +75,7 @@ const newSocketConnection = async(socket, io) => {
   //Event Llisteners
   socket.on('handshake', (friend) => handshake(socket, friend) )
   socket.on('changeStatus', (payload) => updateRoomStatus(socket, userId, payload))
+  socket.on('setRoom', (payload) => console.log('ROOM STATUS CHANGED: ', payload))
   socket.on('newMsg', (payload) => newMsg(io, socket, userId, payload))
   // socket.on('noteChange', (payload) => {
   //   console.log('THE NOTE IS TRIGGERED: ', payload)

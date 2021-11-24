@@ -19,7 +19,8 @@ const UserSchema = new Schema(
     }],
     friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
     avatar: {type: String},
-    online: {type: Boolean, default: false}
+    online: {type: Boolean, default: false},
+    roomOnline: {type: Schema.Types.ObjectId, ref: 'Room'}
   },
   {
     versionKey: false,
