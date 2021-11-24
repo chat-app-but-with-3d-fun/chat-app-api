@@ -81,7 +81,7 @@ const newSocketConnection = async(socket, io) => {
   //   const {room, note} = payload
   //   io.in(`room-${room}`).emit('noteChange', note)
   // })
-  socket.on('newNote', (payload) => newNote(io,socket,userid, payload))
+  socket.on('newNote', (payload) => newNote(io,socket,userId, payload))
   socket.on('statusMsg', (payload) => statusMsg(socket, userId, payload))
   socket.on('disconnect', () => {
     unRegisterUser(userId, socket)
