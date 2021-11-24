@@ -12,7 +12,7 @@ import msgRoute from './routes/messageRoute.js'
 import roomRoute from './routes/roomRoute.js'
 import {registerUser, unRegisterUser, handshake} from './socketFunc/handleRegister.js'
 import { updateRoomStatus } from './socketFunc/handleStatusChange.js';
-import {newMsg, newNote} from './socketFunc/handleMsg.js'
+import {newMsg, newNote, getNotes} from './socketFunc/handleMsg.js'
 
 //mongoose Setup
 mongoose
@@ -82,6 +82,7 @@ const newSocketConnection = async(socket, io) => {
   //   io.in(`room-${room}`).emit('noteChange', note)
   // })
   socket.on('newNote', (payload) => newNote(io,socket,userId, payload))
+  socket.on('getNotes',() => getNotes(socket, userId, payload))
   socket.on('statusMsg', (payload) => statusMsg(socket, userId, payload))
   socket.on('disconnect', () => {
     unRegisterUser(userId, socket)

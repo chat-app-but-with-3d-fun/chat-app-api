@@ -104,3 +104,23 @@ export const newNote = async(io, socket, userId, payload) => {
         console.log('ERROR: ',error)
     }
 }
+
+export const getNotes = async( socket, userId, payload) => {
+    const {room} = payload
+    console.log('GET NOTES REQUESTED: ', room)
+    try {
+        const roomMsg = await Room.findById(room)
+        .populate({
+            path: 'messages',
+            select: 'message sender type createdAt'
+        })
+        console.log('FOUND NOTES: ', roomMsg)
+        const noteOnly = roomMsg?.messages.filter( element => {
+            return element.type === 'note'
+        })
+        socket.emit('oldNote', noteOnly)
+    }
+    catch(error){
+        console.log(error)
+    }
+}
