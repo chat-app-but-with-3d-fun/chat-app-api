@@ -55,11 +55,6 @@ export const getMessages = async (req, res, next) => {
             return element.type === 'chat'
         })
 
-        //Set unread messages back to 0 for User
-        // const userUpdated = await User.findOneAndUpdate(
-        //         {user, "rooms.room" : roomId},
-        //         {$set: {"rooms.$.unread": 0} }
-        //     )
         const updateUser = await User.findOneAndUpdate(
             {_id: user._id},
             {$set: {"rooms.$[el].unread": 0}},
@@ -67,20 +62,19 @@ export const getMessages = async (req, res, next) => {
            arrayFilters: [{"el.room": roomId}],
            new: true 
         })
-        // updateUser.update({'room._id: '})
-        
         
         console.log('THE ROOM WE ARE TALKING ABOUT: ', roomId)
         console.log('USER UPDATED: ', updateUser)
-            console.log('THE USER WE TALKING ABOUT!!!', user)
-        const unreadMessages = userUpdated.rooms
-            .find( element => {
-                return `${element.room}` === roomId 
-            }) 
+        console.log('THE USER WE TALKING ABOUT!!!', user)
+        
+            // const unreadMessages = userUpdated.rooms
+            // .find( element => {
+            //     return `${element.room}` === roomId 
+            // }) 
 
         //return messages and number of unread messages in this chat
+        
         res.send({
-            unread: unreadMessages.unread,
             messages: chatOnly
         })
 
