@@ -62,7 +62,7 @@ export const getMessages = async (req, res, next) => {
             )
         console.log('THE ROOM WE ARE TALKING ABOUT: ', roomId)
         console.log('USER UPDATED: ', userUpdated)
-
+            console.log('THE USER WE TALKING ABOUT!!!', user)
         const unreadMessages = userUpdated.rooms
             .find( element => {
                 return `${element.room}` === roomId 
