@@ -39,7 +39,7 @@ export const newMsg = async(io, socket, userId, payload) => {
             )
             .populate({
                 path: 'users',
-                select: 'online'})
+                select: 'online roomOnline'})
 
             console.log('new message to ', `room-${room}` )
             io.in(`room-${room}`).emit('newMsg', popMsg)
