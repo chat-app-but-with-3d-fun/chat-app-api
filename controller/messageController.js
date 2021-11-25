@@ -56,10 +56,11 @@ export const getMessages = async (req, res, next) => {
         })
 
         //Set unread messages back to 0 for User
-        const userUpdated = await User.findOneAndUpdate(
-                {user, "rooms.room" : roomId},
-                {$set: {"rooms.$.unread": 0} }
-            )
+        // const userUpdated = await User.findOneAndUpdate(
+        //         {user, "rooms.room" : roomId},
+        //         {$set: {"rooms.$.unread": 0} }
+        //     )
+        const userUpdated = await User.findByIdAndUpdate(user._id)
         console.log('THE ROOM WE ARE TALKING ABOUT: ', roomId)
         console.log('USER UPDATED: ', userUpdated)
             console.log('THE USER WE TALKING ABOUT!!!', user)
