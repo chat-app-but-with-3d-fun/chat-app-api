@@ -59,6 +59,9 @@ export const getMessages = async (req, res, next) => {
                 {$set: {"rooms.$.unread": 0} }
             )
         
+        
+
+
         const unreadMessages = userUpdated.rooms
             .find( element => {
                 return `${element.room}` === roomId 
