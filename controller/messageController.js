@@ -18,6 +18,8 @@ export const createMessage = async(req, res, next) => {
             room: roomId
         }
         const newMsg = await Message.create(data)
+        console.log('A MESSAGE SHOULD BE DISTRIBUTED to ROOM: ', roomid)
+        console.log('THIS IS THE MESSAGE: ', data)
         const roomUpdated = await Room.findByIdAndUpdate(
             roomId,
             {$push: {messages: newMsg._id}},
@@ -58,8 +60,7 @@ export const getMessages = async (req, res, next) => {
                 {user, "rooms.room" : roomId},
                 {$set: {"rooms.$.unread": 0} }
             )
-        
-        
+        console.log('THE ROOM WE ARE TALKING ABOUT: ', roomId)
 
 
         const unreadMessages = userUpdated.rooms
