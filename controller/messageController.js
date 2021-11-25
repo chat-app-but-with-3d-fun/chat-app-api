@@ -60,9 +60,12 @@ export const getMessages = async (req, res, next) => {
         //         {user, "rooms.room" : roomId},
         //         {$set: {"rooms.$.unread": 0} }
         //     )
-        const userUpdated = await User.findByIdAndUpdate(user._id)
+        const updateUser = await User.findOne({"user": user._id , "rooms.room": roomId})
+        // updateUser.update({'room._id: '})
+        
+        
         console.log('THE ROOM WE ARE TALKING ABOUT: ', roomId)
-        console.log('USER UPDATED: ', userUpdated)
+        console.log('USER UPDATED: ', updateUser)
             console.log('THE USER WE TALKING ABOUT!!!', user)
         const unreadMessages = userUpdated.rooms
             .find( element => {
