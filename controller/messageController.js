@@ -61,7 +61,7 @@ export const getMessages = async (req, res, next) => {
                 {$set: {"rooms.$.unread": 0} }
             )
         console.log('THE ROOM WE ARE TALKING ABOUT: ', roomId)
-
+        console.log('USER UPDATED: ', userUpdated)
 
         const unreadMessages = userUpdated.rooms
             .find( element => {
