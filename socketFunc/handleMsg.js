@@ -58,7 +58,8 @@ export const newMsg = async(io, socket, userId, payload) => {
 
             // inform the users not in room
             const notActiveUsers = await roomUpdated.users.filter(element => {
-                if (!element.roomOnline != room) {
+                if (element.roomOnline != room && element._id != userId) {
+                    console.log('THE USER WHO IS NOT IN THE ROOM:', element)
                     return element._id
                 }
             }) 
