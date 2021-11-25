@@ -56,26 +56,26 @@ export const newMsg = async(io, socket, userId, payload) => {
                 {$inc: {"rooms.$.unread" : 1}}
             )
 
-            //inform the users not in room
-            // const notActiveUsers = await roomUpdated.users.filter(element => {
-            //     if (!element.roomOnline != room) {
-            //         return element._id
-            //     }
-            // }) 
+            // inform the users not in room
+            const notActiveUsers = await roomUpdated.users.filter(element => {
+                if (!element.roomOnline != room) {
+                    return element._id
+                }
+            }) 
 
-            // const updateNotActive = await User.updateMany(
-            //     {_id: {$in: notActiveUsers},'rooms.room': `${room}` },
-            //     {$inc: {"rooms.$.unread" : 1}}
-            // )
+            const updateNotActive = await User.updateMany(
+                {_id: {$in: notActiveUsers},'rooms.room': `${room}` },
+                {$inc: {"rooms.$.unread" : 1}}
+            )
             
-            // notActiveUsers.forEach((element) => {
-            //     const tmpObj = {
-            //         type, message, room,
-            //         sender: user.username
-            //     }
-            //     socket.to(`private-${element._id}`).emit('notification', tmpObj)
-            //     console.log('A notification was sent to ', element._id, tmpObj)
-            //  })   
+            notActiveUsers.forEach((element) => {
+                const tmpObj = {
+                    type, message, room,
+                    sender: user.username
+                }
+                socket.to(`private-${element._id}`).emit('notification', tmpObj)
+                console.log('A notification was sent to ', element._id, tmpObj)
+             })   
 
 
 
