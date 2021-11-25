@@ -60,7 +60,13 @@ export const getMessages = async (req, res, next) => {
         //         {user, "rooms.room" : roomId},
         //         {$set: {"rooms.$.unread": 0} }
         //     )
-        const updateUser = await User.findOne({"user": user._id , "rooms.room": roomId})
+        const updateUser = await User.findOneAndUpdate(
+            {_id: user._id},
+            {$set: {"rooms.$[el].unread": 0}},
+        {
+           arrayFilters: [{"el.room": roomId}],
+           new: true 
+        })
         // updateUser.update({'room._id: '})
         
         
