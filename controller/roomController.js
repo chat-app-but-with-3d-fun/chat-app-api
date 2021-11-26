@@ -60,7 +60,7 @@ export const inviteFriend = async (req, res, next) => {
 
     res.send({
       username: `${updateFriend.username}`,
-      id: updateFriend._id
+      _id: updateFriend._id
     })
   }
   catch(err){
