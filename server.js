@@ -77,11 +77,6 @@ const newSocketConnection = async(socket, io) => {
   socket.on('changeStatus', (payload) => updateRoomStatus(socket, userId, payload))
   socket.on('setRoom', (payload) => updateActiveRoom(socket, userId, payload))
   socket.on('newMsg', (payload) => newMsg(io, socket, userId, payload))
-  // socket.on('noteChange', (payload) => {
-  //   console.log('THE NOTE IS TRIGGERED: ', payload)
-  //   const {room, note} = payload
-  //   io.in(`room-${room}`).emit('noteChange', note)
-  // })
   socket.on('newNote', (payload) => newNote(io,socket,userId, payload))
   socket.on('getNotes',(payload) => getNotes(socket, userId, payload))
   socket.on('statusMsg', (payload) => statusMsg(socket, userId, payload))

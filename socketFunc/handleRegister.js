@@ -47,8 +47,11 @@ export const handshake = async(socket, friend) => {
 //If you logout inform other users
 export const unRegisterUser = async(userId, socket) => {
     const user = await User.findByIdAndUpdate(userId,
-        {socketId: null,
-        online: false},
+        {
+            socketId: null,
+            online: false,
+            roomOnline: null
+        },
         {new: true})
     socket.to(`public-${userId}`).emit('unRegister', userId)
     socket.removeAllListeners()

@@ -84,7 +84,7 @@ export const loginUser = async (req, res, next) => {
 export const findUserById = async(req, res, next) => {
   const id = req.body
   try{
-    const user = await User.findOne(id).select('username email')
+    const user = await User.findOne(id).select('username email online')
     res.send(user)
   } catch(error) {
     next(error)
