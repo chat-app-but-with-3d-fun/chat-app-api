@@ -2,6 +2,18 @@ import createError from 'http-errors';
 import User from '../models/User.js';
 import Room from '../models/Room.js';
 
+
+//GET ROOM INFOS
+export const getRoomInfo = async(req, res, next) => {
+  const id = req.body
+  try{
+    const room = await Room.findById(id).select('roomName users type')
+    res.send(room)
+  } catch(error) {
+    next(error)
+  }
+}
+
 // Create an empty room
 export const createEmptyRoom = async (req, res, next) => {
   const user = req.user
