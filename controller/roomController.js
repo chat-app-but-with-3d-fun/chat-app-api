@@ -30,6 +30,7 @@ export const createEmptyRoom = async (req, res, next) => {
 }
 
 export const inviteFriend = async (req, res, next) => {
+  console.log('FRIEND IN ROOM REQUESTED!: ', req.params)
   const {roomId, friendId}  = req.params
   const user = req.user
   try {
