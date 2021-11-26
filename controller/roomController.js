@@ -58,7 +58,8 @@ export const inviteFriend = async (req, res, next) => {
       {new: true})
 
     res.send({
-      success: `${updateFriend.username} joined ${updateRoom.roomName}`
+      username: `${updateFriend.username}`,
+      id: updateFriend._id
     })
   }
   catch(err){

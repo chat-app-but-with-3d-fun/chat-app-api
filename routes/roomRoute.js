@@ -16,6 +16,6 @@ router.route('/newroom')
 
 //invite other person to a room
 router.route('/:roomId/adduser/:friendId')
-  .get(auth,inviteFriend)
+  .post(auth,inviteFriend)
 
 export default router
