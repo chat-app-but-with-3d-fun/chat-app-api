@@ -31,10 +31,6 @@ export const updateActiveRoom = async(socket, userId, payload) => {
     console.log('CHeck the userId and ROOM: ', room, userId)
     try{
     const user = await User.findByIdAndUpdate(userId, {roomOnline: room}, {upsert: true})
-        .populate({
-            path: 'users',
-            select: 'username online roomOnline'
-        })
     console.log('ROOM UPDATED: ', user)
     socket.emit('roomUpdate', user)
     }
