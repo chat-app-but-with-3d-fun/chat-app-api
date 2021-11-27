@@ -7,7 +7,12 @@ import Room from '../models/Room.js';
 export const getRoomInfo = async(req, res, next) => {
   const {id} = req.body
   try{
-    const room = await Room.findById(id).select('roomName users type')
+    const room = await Room.findById(id)
+      .select('roomName users type')
+      .populate({
+        path: 'users',
+        select: 'username online roomOnline'
+    })
     res.send(room)
   } catch(error) {
     next(error)
