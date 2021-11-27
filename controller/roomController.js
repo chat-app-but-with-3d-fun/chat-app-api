@@ -75,6 +75,8 @@ export const inviteFriend = async (req, res, next) => {
       {$addToSet: {users: friendId}},
       {new: true})
 
+      console.log('ROOM UPDATED!!', updateRoom)
+
     res.send({
       username: `${updateFriend.username}`,
       _id: updateFriend._id,
