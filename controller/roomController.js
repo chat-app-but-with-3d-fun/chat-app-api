@@ -5,7 +5,7 @@ import Room from '../models/Room.js';
 
 //GET ROOM INFOS
 export const getRoomInfo = async(req, res, next) => {
-  const id = req.body
+  const {id} = req.body
   try{
     const room = await Room.findById(id).select('roomName users type')
     res.send(room)
