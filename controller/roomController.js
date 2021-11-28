@@ -8,7 +8,7 @@ export const getRoomInfo = async(req, res, next) => {
   const {id} = req.body
   try{
     const room = await Room.findById(id)
-      .select('roomName users type')
+      .select('roomName users private')
       .populate({
         path: 'users',
         select: 'username online roomOnline'
