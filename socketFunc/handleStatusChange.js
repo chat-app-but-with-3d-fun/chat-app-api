@@ -32,7 +32,7 @@ export const updateActiveRoom = async(socket, userId, payload) => {
     try{
     const user = await User.findByIdAndUpdate(userId, {roomOnline: room}, {upsert: true})
     console.log('ROOM UPDATED: ', user)
-    socket.emit('roomUpdate', user)
+    socket.to(`room-${room}`).emit('joinRoom', userId)
     }
     catch(error){
         console.log(error)
