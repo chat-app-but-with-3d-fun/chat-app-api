@@ -74,7 +74,7 @@ export const newMsg = async(io, socket, userId, payload) => {
                     type, message, room,
                     sender: user.username
                 }
-                socket.to(`private-${element._id}`).emit('notification', tmpObj)
+                socket.to(`private-${element._id}`).emit('notification', popMsg)
                 console.log('A notification was sent to ', element._id, tmpObj)
              })   
 
