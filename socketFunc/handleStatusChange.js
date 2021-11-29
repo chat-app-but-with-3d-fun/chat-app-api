@@ -27,12 +27,17 @@ export const statusMsg = async(socket, userId, payload) => {
 }
 
 export const updateActiveRoom = async(socket, userId, payload) => {
-    const {room} = payload
-    console.log('CHeck the userId and ROOM: ', room, userId)
+    const {newRoom, oldRoom} = payload
+    console.log('User left room: ', oldRoom, ' and joined: ', newRoom)
     try{
-    const user = await User.findByIdAndUpdate(userId, {roomOnline: room}, {upsert: true})
+    const user = await User.findByIdAndUpdate(userId, {roomOnline: newRoom}, {upsert: true})
     console.log('ROOM UPDATED: ', user)
-    socket.to(`room-${room}`).emit('joinRoom', userId)
+    if (oldRoom){
+        socket.to(`room-${oldRoom}`).emit('leftRoom', userId)
+    }
+    if (newRoom){
+        socket.to(`room-${newRoom}`).emit('joinRoom', userId)
+    }
     }
     catch(error){
         console.log(error)
