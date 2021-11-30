@@ -42,7 +42,7 @@ router.route('/update')
   .post(auth, updateUser)
 
 router.route('/logout')
-  .get(logout)
+  .post(logout)
 
 router.route('/test')
     .get((req, res, next) => {
