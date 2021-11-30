@@ -46,7 +46,8 @@ export const updateActiveRoom = async(socket, userId, payload) => {
 
 export const getListActiveUsers = async(socket, userId, payload) => {
     const {user, activeUsers, roomId} = payload
-    tmpArray = [...activeUsers, userId]
+    console.log('ACTIVE LIST ARRIVED', payload)
+    const tmpArray = [...activeUsers, userId]
     socket.to(`private-${user}`).emit('updateActiveList', {
         activeUsers: tmpArray,
         roomId
