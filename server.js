@@ -11,7 +11,7 @@ import userRoute from './routes/userRoute.js'
 import msgRoute from './routes/messageRoute.js'
 import roomRoute from './routes/roomRoute.js'
 import {registerUser, unRegisterUser, handshake} from './socketFunc/handleRegister.js'
-import { updateActiveRoom, updateRoomStatus } from './socketFunc/handleStatusChange.js';
+import { updateActiveRoom, updateRoomStatus, getListActiveUsers } from './socketFunc/handleStatusChange.js';
 import {newMsg, newNote, getNotes} from './socketFunc/handleMsg.js'
 
 //mongoose Setup
@@ -76,6 +76,7 @@ const newSocketConnection = async(socket, io) => {
   socket.on('handshake', (friend) => handshake(socket, friend) )
   socket.on('changeStatus', (payload) => updateRoomStatus(socket, userId, payload))
   socket.on('setRoom', (payload) => updateActiveRoom(socket, userId, payload))
+  socket.on('sendListActiveUsers', (payload) => getListActiveUsers(socket, userId, payload))
   socket.on('newMsg', (payload) => newMsg(io, socket, userId, payload))
   socket.on('newNote', (payload) => newNote(io,socket,userId, payload))
   socket.on('getNotes',(payload) => getNotes(socket, userId, payload))
