@@ -98,7 +98,7 @@ export const findUserKeyValue = async(req, res, next) => {
     if (req.search.hasOwnProperty('username')) {
       const search = req.search.username
       const user = await User
-        .find({"username" : {$regex: search, $options:'I'}})
+        .find({"username" : {$regex: search, $options:'i'}})
         .select('username avatar online')
       console.log('WE FOUND A USER WITH: ', user)
         res.send(user)
